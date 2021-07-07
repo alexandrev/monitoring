@@ -137,11 +137,15 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 
 		for _, appMetric := range metric.AppMetrics {
 
-			logger.Debugf("Test appID - 1 : %s", appID)
+			logger.Debugf("Test appID - 1 : %s", appMetric.InstanceId)
 
 			pLabelsApp["appInstance"] = appMetric.InstanceId
 
+			logger.Debugf("Test appID - 1 : %v", appMetric)
+
 			for _, a := range appMetric.TciAppInstancesCPU {
+
+				logger.Debugf("Test appID - 2 : %s", appMetric.InstanceId)
 
 				println(a.Labels.Status)
 				if a.Labels.Status != "" {
