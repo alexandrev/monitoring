@@ -131,9 +131,13 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 
 		pLabelsApp["appName"] = appName
 		pLabelsApp["appType"] = appType
-		pLabelsApp["appID"] = appType
+		pLabelsApp["appID"] = appID
+
+		logger.Debugf("Test appID: %s", appID)
 
 		for _, appMetric := range metric.AppMetrics {
+
+			logger.Debugf("Test appID - 1 : %s", appID)
 
 			pLabelsApp["appInstance"] = appMetric.InstanceId
 
