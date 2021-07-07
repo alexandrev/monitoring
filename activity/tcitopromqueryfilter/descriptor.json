@@ -15,7 +15,7 @@
             "enabled": true
         }
     },
-    "ref": "github.com/alexandrev/contrib/activity/tcitopromqueryfilter",
+    "ref": "github.com/alexandrev/monitoring/activity/tcitopromqueryfilter",
     "inputs": [
         {
             "name": "query",

@@ -7,7 +7,7 @@
     "display": {
         "description": "Adapt from TCI Metrics Stats to Prometheus Format",
         "visible": true,
-        "category": "monitoring"
+        "category": "Monitoring"
     },
     "feature": {
         "iterator": {
@@ -15,7 +15,7 @@
             "enabled": true
         }
     },
-    "ref": "github.com/alexandrev/contrib/monitoring/activity/tcitoprommetrics",
+    "ref": "github.com/alexandrev/monitoring/activity/tcitoprommetrics",
     "inputs": [
         {
             "name": "appMetrics",
