@@ -156,10 +156,10 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 					}
 
 					pMetricDuration := list.Create("activity_elapsed_time_msec", "Total time (in ms) taken by the activity for successful completion or failure", "gauge")
-					pMetricDuration.Add(pLabels, float64(activity.AverageElapsedTime))
+					pMetricDuration.Add(pLabels, float64(activity.AvgElapsedTime))
 
 					pMetricExecDuration := list.Create("activity_execution_time_msec", "Total execution time (in ms) taken by the activity for successful completion or failure", "gauge")
-					pMetricExecDuration.Add(pLabels, float64(activity.AverageExecTime))
+					pMetricExecDuration.Add(pLabels, float64(activity.AvgExecTime))
 
 				}
 
