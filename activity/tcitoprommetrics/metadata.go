@@ -34,8 +34,21 @@ type App struct {
 	ModifiedTime         int64  `md:"modifiedTime"`
 }
 
+type Activities struct {
+	ActivityName   string `md:"activityName"`
+	AvgElapsedTime int    `md:"avgElapsedTime"`
+	AvgExecTime    int    `md:"avgExecTime"`
+	Completed      int    `md:"completed"`
+	Failed         int    `md:"failed"`
+	FlowName       string `md:"flowName"`
+	MaxElapsedTime int    `md:"maxElapsedTime"`
+	MaxExecTime    int    `md:"maxExecTime"`
+	MinElapsedTime int    `md:"minElapsedTime"`
+	MinExecTime    int    `md:"minExecTime"`
+}
+
 type Flows struct {
-	AvgExecTime float64 `md:"avg_exec_time"`
+	AvgExecTime float64 `md:"avgExecTime"`
 	Completed   int     `md:"completed"`
 	Failed      int     `md:"failed"`
 	FlowName    string  `md:"flowName"`
@@ -57,10 +70,11 @@ type Triggers struct {
 	TriggerName string `md:"trigger_name"`
 }
 type AppInstanceMetricsIn struct {
-	AppName    string     `md:"app_name"`
-	AppVersion string     `md:"app_version"`
-	Flows      []Flows    `md:"flows"`
-	Triggers   []Triggers `md:"triggers"`
+	AppName    string       `md:"app_name"`
+	AppVersion string       `md:"app_version"`
+	Flows      []Flows      `md:"flows"`
+	Activities []Activities `md:"activities"`
+	Triggers   []Triggers   `md:"triggers"`
 }
 type AppInstanceMetrics struct {
 	AppInstance        string               `md:"appInstance"`

@@ -125,6 +125,46 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 
 			}
 
+			for _, activity := range instanceMetric.AppInstanceMetrics.Activities {
+
+				pLabels := make(map[string]string)
+				pLabels["flowName"] = activity.FlowName
+				pLabels["appName"] = appName
+				pLabels["appID"] = appID
+				pLabels["appType"] = appType
+				pLabels["appInstance"] = instanceMetric.AppInstance
+				pLabels["activityName"] = activity.ActivityName
+
+				if appType != "" && appName != "" && appID != "" {
+
+					pMetricCount := list.Create("activity_execution_count", "Total number of times the activity is started, completed, or failed", "counter")
+					pLabelsAdditionalCompleted := make(map[string]string)
+					for k, v := range pLabels {
+						pLabelsAdditionalCompleted[k] = v
+					}
+					pLabelsAdditionalCompleted["status"] = "Completed"
+					pMetricCount.Add(pLabelsAdditionalCompleted, float64(activity.Completed))
+					pLabelsAdditionalFailed := make(map[string]string)
+					for k, v := range pLabels {
+						pLabelsAdditionalFailed[k] = v
+					}
+					pLabelsAdditionalFailed["status"] = "Failed"
+					pMetricCount.Add(pLabelsAdditionalFailed, float64(activity.Failed))
+					pLabelsAdditionalStarted := make(map[string]string)
+					for k, v := range pLabels {
+						pLabelsAdditionalStarted[k] = v
+					}
+
+					pMetricDuration := list.Create("activity_elapsed_time_msec", "Total time (in ms) taken by the activity for successful completion or failure", "gauge")
+					pMetricDuration.Add(pLabels, float64(activity.AverageElapsedTime))
+
+					pMetricExecDuration := list.Create("activity_execution_time_msec", "Total execution time (in ms) taken by the activity for successful completion or failure", "gauge")
+					pMetricExecDuration.Add(pLabels, float64(activity.AverageExecTime))
+
+				}
+
+			}
+
 		}
 
 		pLabelsApp := make(map[string]string)
@@ -139,7 +179,6 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 
 			for _, a := range appMetric.TciAppInstancesCPU {
 
-				println(a.Labels.Status)
 				if a.Labels.Status != "" {
 					pAppCPUUsage := list.Create(a.Labels.Status+"_app_cpu_usage", "CPU Usage Percentage", "gauge")
 					pAppCPUUsage.Add(pLabelsApp, float64(a.Value))
@@ -148,7 +187,6 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 
 			for _, a := range appMetric.TciAppInstancesMemory {
 
-				println(a.Labels.Status)
 				if a.Labels.Status != "" {
 					pAppMemoryUsage := list.Create(a.Labels.Status+"_app_memory_used", "Memory Used Percentage", "gauge")
 					pAppMemoryUsage.Add(pLabelsApp, float64(a.Value))
